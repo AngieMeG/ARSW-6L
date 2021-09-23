@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Blueprints</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet"href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+    </head>
+    <header>
+        <div id="header">
+            <h1> Blueprints</h1>
+        </div>
+    </header>
+    <body>
+        <div class="container center">
+            <div id="author_wrapper">
+                <p>Author</p>
+                <span class="author"></span>
+                <button id="get"> Get Blueprints </button>
+            </div>
+            <div id="info_wrapper">
+                <div id="list">
+                    <span class="author"></span>
+                    <p>'s blueprints:</p>
+                    <div  class="blueprint_table">
+                        <div class="table_wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th> Blueprint name </th>
+                                        <th> Number of points </th>
+                                        <th> Open </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="total_points">
+                    <h2>Total user points: </h2>
+                    <span id="total_points"></span>
+                </div>
+            </div>
+            <div id="current">
+                <h2>Current blueprint: </h2>
+                <span id="name"></span>
+                <div id="canvas"></div>
+            </div>
+        </div>
+    </body>
+</html>
