@@ -9,17 +9,18 @@ var app = (function () {
         return _blueprints;
     };
 
-    let _generateBlueprintsTable = function(tableSelector,pointsSelector){
+    let _generateBlueprintsTable = function(){
         let content = "Total points: " + _blueprints.reduce((previous, current) => {return previous + current.points.length}, 0)
-        $(pointsSelector).text(content); 
-        $(tableSelector+" tr:not(:first-child)").remove();
+        $('#total_points').text(content); 
+        $("#blueprints_table"+" tr:not(:first-child)").remove();
         $('#author_header').text(_authorName+"'s blueprints");
         _blueprints.map((item) => {
+            console.log(item);
             let row = $("<tr></tr>");
             $("<td>"+item.name+"</td>").appendTo(row);
             $("<td>"+item.points.length+"</td>").appendTo(row);
             $('<td><input name="'+ item.name +'"type="button" value="Open" class="btn btn-secondary open_button"></td>').appendTo(row);
-            row.appendTo(tableSelector);
+            row.appendTo("#blueprints_table");
         });
         
         for(let button of document.getElementsByClassName('open_button')){
@@ -36,7 +37,7 @@ var app = (function () {
         let first = true;
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext("2d");
-        console.log(canvas.width, canvas.height);
+        ctx.beginPath();
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         for(let point of blueprint.points){
             if (first) {
@@ -56,15 +57,16 @@ var app = (function () {
         _isAPIProvider = !_isAPIProvider;
     }
 
-    let setAuthorName = function(name,tableSelector,pointsSelector){
-        alert("here");
+    let setAuthorName = function(name){
         _authorName = name;
         _provider.getBlueprintsByAuthor(name, _mapBlueprints);
-        _generateBlueprintsTable(tableSelector,pointsSelector);
+        
     };
 
     let _mapBlueprints = function(event, blueprints){
         _blueprints = blueprints.map((item) => { return { name: item.name, points: item.points }} );
+        _generateBlueprintsTable();
+        console.log(_blueprints);
     };
 
     return {
