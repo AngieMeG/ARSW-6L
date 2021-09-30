@@ -2,6 +2,8 @@ var app = (function () {
     
     let _authorName = "";
     let _blueprints = [];
+    let _provider = api;
+    let _isAPIProvider = true;
 
     let getBlueprints= function() {
         return _blueprints;
@@ -27,7 +29,7 @@ var app = (function () {
 
     let drawBlueprint = function(name){
         $('#blueprint_header').text(name);
-        apimock.getBlueprintsByNameAndAuthor(name, _authorName, _drawBlueprint);
+        _provider.getBlueprintsByNameAndAuthor(name, _authorName, _drawBlueprint);
     };
 
     let _drawBlueprint = function(event,blueprint){
@@ -48,9 +50,16 @@ var app = (function () {
         };
     };
 
+    let changeProvider = function(){
+        if(_isAPIProvider) _provider = _provider;
+        else _provider = api;
+        _isAPIProvider = !_isAPIProvider;
+    }
+
     let setAuthorName = function(name,tableSelector,pointsSelector){
+        alert("here");
         _authorName = name;
-        apimock.getBlueprintsByAuthor(name, _mapBlueprints);
+        _provider.getBlueprintsByAuthor(name, _mapBlueprints);
         _generateBlueprintsTable(tableSelector,pointsSelector);
     };
 
@@ -60,7 +69,8 @@ var app = (function () {
 
     return {
         setAuthorName: setAuthorName,
-        getBlueprints: getBlueprints
+        getBlueprints: getBlueprints,
+        changeProvider: changeProvider
     };
 
   })();
