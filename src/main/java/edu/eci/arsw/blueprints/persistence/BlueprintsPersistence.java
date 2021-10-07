@@ -48,11 +48,17 @@ public interface BlueprintsPersistence {
      */
     public Set<Blueprint> getBlueprintByAuthor(String author) throws BlueprintNotFoundException;
     
-         /**
+    /**
      * Metodo encargado de traer tooos los BluePrint
      * @return todos los BluePrint
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
     public Set<Blueprint> getAllBluePrint() throws BlueprintNotFoundException;
+
+    /** 
+     * Metodo encargado de eliminar un Blueprint
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    public void removeBlueprint(String author, String bprintname) throws BlueprintNotFoundException;
     
 }

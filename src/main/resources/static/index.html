@@ -5,9 +5,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
     </head>
     <style>
+        *,*::after,*::before {
+            margin: 0;
+            padding: 0;
+        }
+
         #info_wrapper {
             width: 40vw;
         }
@@ -22,6 +27,22 @@
         header {
             margin: 5vw;
         }
+
+        .pop_up {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
     <header>
         <div id="header">
@@ -32,11 +53,11 @@
         <div class="container center">
             <div id="author_wrapper" class="input-group mb-3">
                 <input type="text" id="author_name" class="form-control" placeholder="Author">
-                <button id="get" class="btn btn-light"> Get Blueprints </button>
+                <button id="get" class="btn btn-outline-primary"> Get Blueprints </button>
             </div>
             <div class="card_container">
                 <div id="info_wrapper">
-                    <div class="card border-primary mb-3" style="max-width: 40vw;">
+                    <div class="card bg-light mb-3" style="max-width: 40vw;">
                         <div class="card-header" id="author_header"></div>
                         <div class="card-body">
                             <div class="blueprint_table">
@@ -56,12 +77,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="card border-light mb-3" style="max-width: 40vw;">
-                    <div class="card-header" id="blueprint_header"></div>
+                <div class="card bg-light mb-3 hidden" style="max-width: 40vw;" id="blueprintEditor">
+                    <div class="card-header" style="display: flex; align-items: center;">
+                        <div id="blueprint_header"></div>
+                        <button type="button" class="btn btn-primary btn-sm" style="margin-left: auto;" id="popup">+</button>
+                    </div>
                     <div class="card-body">
                         <div>
                             <canvas id="canvas" style="border:2px solid #d3d3d3;"></canvas>
                         </div>
+                    </div>
+                    <div class="card_container" style="margin-bottom: 2vh;">
+                        <input type="button" value="Save" id="save">
+                        <input type="button" value="Delete" id="delete">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pop_up hidden" id="Popup_window">
+            <div class="card bg-light mb-3" style="max-width: 30vw;">
+                <div class="card-header">New Blueprint</div>
+                <div class="card-body">
+                    <h4 class="card-title">Give it a name!</h4>
+                    <input class="form-control form-control-lg" type="text" placeholder="New Blueprint" id="newBlueprint_name">
+                    <div class="card_container" style="margin: 2vh;">
+                        <input type="button" value="Accept" id="accept_popup">
+                        <input type="button" value="Cancel" id="close_popup">
                     </div>
                 </div>
             </div>
@@ -71,7 +112,9 @@
         <script src="js/apimock.js"></script>
         <script src="js/apiclient.js"></script>
         <script src="js/app.js"></script>
+        <script src="js/view.js"></script>
         <script>
+            view.init();
             window.addEventListener('DOMContentLoaded',() => {
                 let button = document.getElementById("get");
                 let authorName = document.getElementById("author_name");

@@ -19,17 +19,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author hcadavid
  */
 @RestController
+
 @RequestMapping(value = "/blueprints")
 public class BlueprintAPIController {
     @Autowired
     BlueprintsServices bps= null;
     
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> GetAllBlueprintFilter(){
         try {
@@ -40,6 +43,7 @@ public class BlueprintAPIController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(path ="/{author}",method = RequestMethod.GET)
     public ResponseEntity<?> GetBlueprintsByAuthor(@PathVariable ("author") String authorName){
         try {
@@ -50,6 +54,7 @@ public class BlueprintAPIController {
         }        
     }
     
+    @CrossOrigin
     @RequestMapping(path ="/{author}/{name}",method = RequestMethod.GET)
     public ResponseEntity<?> GetBlueprintByAuthorAndName(@PathVariable ("author") String authorName, @PathVariable ("name") String blueprintName){
         try {
@@ -60,6 +65,7 @@ public class BlueprintAPIController {
         }        
     }
     
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.POST)	
     public ResponseEntity<?> AddNewBlueprint(@RequestBody Blueprint newBp){
         
@@ -73,6 +79,7 @@ public class BlueprintAPIController {
 
     }
     
+    @CrossOrigin
     @RequestMapping(path = "/{author}/{name}",method = RequestMethod.PUT)	
     public ResponseEntity<?> PutBlueprint(@PathVariable ("author") String author, @PathVariable ("name") String name, @RequestBody Blueprint newBp ){
         
@@ -80,6 +87,18 @@ public class BlueprintAPIController {
             bps.modifyOrAddBlueprint(newBp, author, name);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (BlueprintPersistenceException ex) {
+            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(path = "/{author}/{name}",method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteBlueprint(@PathVariable ("author") String author, @PathVariable ("name") String name){
+        try {
+            bps.removeBlueprint(author, name);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BlueprintNotFoundException ex) {
             Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
         }
